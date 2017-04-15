@@ -25,7 +25,7 @@
 (def single-quoted-regexp (regex-doc #"#'[^'\\]*(?:\\.[^'\\]*)*'" "Single-quoted regexp"))
 (def double-quoted-string (regex-doc #"\"[^\"\\]*(?:\\.[^\"\\]*)*\"" "Double-quoted string"))
 (def double-quoted-regexp (regex-doc #"#\"[^\"\\]*(?:\\.[^\"\\]*)*\"" "Double-quoted regexp"))
-(def inside-comment #?(:clj #"(?s)(?:(?!(?:\(\*|\*\))).)*(?x) #Comment text"
+(def inside-comment #?(:clj  (re-pattern "(?s)(?:(?!(?:\\(\\*|\\*\\))).)*(?x) #Comment text")
                        :cljs #"(?:(?!(?:\(\*|\*\)))[\s\S])*"))
 (def ws (regex-doc "[,\\s]*" "optional whitespace"))
 

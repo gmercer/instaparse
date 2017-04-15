@@ -25,13 +25,24 @@
 
     ;; Unicode utilities for char-range
     #?(:cljs
-       [goog.i18n.uChar :as u]))
+       [goog.i18n.uChar :as u])
+    ;; Unicode utilities for char-range
+    #?(:cljs
+       [goog.string :as gs])
+    ;; Unicode utilities for char-range
+    #?(:cljs
+       [goog.string.format :as gsf])
+    )
 
   #?(:cljs
      (:use-macros
        [instaparse.gll :only
         [log profile dprintln dpprint success
          attach-diagnostic-meta trace-or-false]])))
+
+;; add format for cljs
+#?(:cljs
+   (def format goog.string.format))
 
 ;; As of Java 7, strings no longer have fast substring operation,
 ;; so we use Segments instead, which implement the CharSequence
@@ -56,7 +67,6 @@
                     (.append s offset (+ offset count)))))))
 
 ;;;;; SETUP DIAGNOSTIC MACROS AND VARS
-#?(:clj (do
 
 (defonce PRINT false)
 (defmacro dprintln [& body]  
@@ -99,7 +109,7 @@
 (defmacro trace-or-false []
   (if TRACE '*trace* false))
 
-))
+
 
 ; In diagnostic messages, how many characters ahead do we want to show.
 (def ^:dynamic *diagnostic-char-lookahead* 10)
@@ -409,9 +419,9 @@
 ;(defn success [tramp node-key result end]
 ;  (push-result tramp node-key (make-success result end)))
 
-#?(:clj
+
    (defmacro success [tramp node-key result end]
-     `(push-result ~tramp ~node-key (make-success ~result ~end))))
+     `(push-result ~tramp ~node-key (make-success ~result ~end)))
 
 (declare build-node-with-meta)
 (defn fail [tramp node-key index reason]
